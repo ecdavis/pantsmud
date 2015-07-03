@@ -3,13 +3,6 @@ import logging
 from pantsmud import command, hook
 
 
-def look_command(brain, cmd, args):
-    logging.debug("look_command")
-    brain.write_line(brain.player.room.name)
-    brain.write_line(", ".join([str(p) for p in brain.player.room.players]))
-    brain.write_line(", ".join([l.name for l in brain.player.room.links]))
-
-
 def say_command(brain, cmd, args):
     logging.debug("say_command")
     for p in brain.player.room.players:
@@ -44,7 +37,6 @@ def shutdown_command(brain, cmd, args):
 
 
 def init():
-    command.add("look", look_command)
     command.add("say", say_command)
     command.add("move", move_command)
     command.add("quit", quit_command)

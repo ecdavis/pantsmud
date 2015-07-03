@@ -6,7 +6,7 @@ import pants
 from pantsmud import game, net
 from pantsmud.world import link, room, world, zone
 
-import basic_commands
+import basic_commands, look_commands
 
 if __debug__:
     logging.basicConfig(level=logging.DEBUG)
@@ -30,6 +30,7 @@ engine = pants.Engine.instance()
 
 game.init(engine, w)
 basic_commands.init()
+look_commands.init()
 
 server = pants.Server(net.LineStream)
 server.listen(4040)

@@ -1,4 +1,5 @@
 import logging
+import json
 import uuid
 
 from pantsmud import auxiliary, hook
@@ -48,6 +49,13 @@ class Session(object):
         if len(self.input_handlers) == 0:
             raise Exception("TODO")  # TODO
         return self.input_handlers.pop()
+
+    def message(self, name, data):
+        if data:
+            msg = "%s %s" % (name, json.dumps(data))
+        else:
+            msg = name
+        self.write_line(msg)
 
     def write(self, msg):
         self.stream.write(msg)
