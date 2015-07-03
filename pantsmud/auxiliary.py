@@ -26,9 +26,8 @@ def install(aux_type, name, cls):
     if aux_type not in _auxiliary_classes:
         log.debug("Adding new auxiliary type: '%s'", aux_type)
         _auxiliary_classes[aux_type] = {}
-    if name in _auxiliary_classes[aux_type]:
-        raise Exception("TODO")  # TODO
-    log.debug("Adding new auxiliary: '%s', class '%s', type '%s'", name, cls.__name__, aux_type)
+    assert name not in _auxiliary_classes[aux_type]
+    log.debug("Adding new auxiliary class: '%s', class '%s', type '%s'", name, cls.__name__, aux_type)
     _auxiliary_classes[aux_type][name] = cls
 
 
@@ -49,10 +48,10 @@ def load_data(aux, data):
     if __debug__:
         if len(aux_keys.difference(keys)) > 0:
             for key in aux_keys.difference(keys):
-                log.debug("could not find stored data for auxiliary key '%s'", key)
+                log.debug("Could not find stored data for auxiliary key '%s'", key)
         if len(data_keys.difference(keys)) > 0:
             for key in data_keys.difference(keys):
-                log.debug("could not find auxiliary data for stored key '%s'", key)
+                log.debug("Could not find auxiliary data for stored key '%s'", key)
     for key in keys:
         aux[key].load_data(data[key])
     return aux

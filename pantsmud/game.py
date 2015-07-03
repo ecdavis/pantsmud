@@ -3,7 +3,7 @@ import logging
 from pantsmud import hook
 
 
-_engine = None
+engine = None
 world = None
 log = logging.getLogger(__name__)
 
@@ -24,16 +24,16 @@ def reset_zone_hook(_, zone):
 
 
 def shutdown_hook(_):
-    global _engine, world
-    _engine.stop()
-    _engine = None
+    global engine, world
+    engine.stop()
+    engine = None
     world = None
 
 
-def init(engine, w):
-    global _engine, world
-    _engine = engine
+def init(e, w):
+    global engine, world
+    engine = e
     world = w
     hook.add(hook.HOOK_RESET_ZONE, reset_zone_hook)
     hook.add(hook.HOOK_SHUTDOWN, shutdown_hook)
-    _engine.cycle(60.0, pulse_world)
+    engine.cycle(60.0, pulse_world)

@@ -7,7 +7,7 @@ import basic_commands
 
 log = logging.getLogger(__name__)
 
-_login_command_manager = command.CommandManager("login")
+_login_command_manager = command.CommandManager(__name__)
 
 
 def login_command(brain, cmd, args):
