@@ -1,5 +1,7 @@
 import logging
 
+from pantsmud import message
+
 log = logging.getLogger(__name__)
 
 
@@ -34,7 +36,7 @@ class CommandManager(object):
         if self.exists(cmd):
             self.run(brain, cmd, args)
         else:
-            brain.write_line("No such command: %s" % cmd)
+            message.command_notfound(brain, cmd, args)
 
 
 _command_manager = CommandManager(__name__)
