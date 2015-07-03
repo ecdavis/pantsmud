@@ -1,0 +1,6 @@
+{
+  "uuid": "dffe6ccd-659a-47ac-94f3-d6a946728ff2",
+  "name": "example_zone",
+  "reset_interval": 10,
+  "auxiliary": {}
+}
