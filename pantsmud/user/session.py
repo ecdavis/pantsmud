@@ -13,6 +13,7 @@ class Session(object):
         self.stream = stream
         self.world = None
         self.player_uuid = None
+        self.is_user = True
         self.input_handlers = []
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_SESSION)
 

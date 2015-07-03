@@ -1,6 +1,6 @@
 import logging
 
-from pantsmud import command
+from pantsmud import command, message
 
 log = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ def look_links(room):
 def look_command(brain, cmd, args):
     log.debug(look_command.__name__)
     if not brain_can_look(brain, cmd):
-        brain.message("command.fail", {"command": cmd, "parameters": args, "reason": "internal server error"})
+        message.command_fail(brain, cmd, args)
         return
     data = {
         "room": look_room(brain.player.room),
@@ -33,7 +33,7 @@ def look_command(brain, cmd, args):
 def look_room_command(brain, cmd, args):
     log.debug(look_room_command.__name__)
     if not brain_can_look(brain, cmd):
-        brain.message("command.fail", {"command": cmd, "parameters": args, "reason": "internal server error"})
+        message.command_fail(brain, cmd, args)
         return
     data = {
         "room": look_room(brain.player.room)
@@ -44,7 +44,7 @@ def look_room_command(brain, cmd, args):
 def look_links_command(brain, cmd, args):
     log.debug(look_links_command.__name__)
     if not brain_can_look(brain, cmd):
-        brain.message("command.fail", {"command": cmd, "parameters": args, "reason": "internal server error"})
+        message.command_fail(brain, cmd, args)
         return
     data = {
         "links": look_links(brain.player.room)
@@ -55,7 +55,7 @@ def look_links_command(brain, cmd, args):
 def look_players_command(brain, cmd, args):
     log.debug(look_players_command.__name__)
     if not brain_can_look(brain, cmd):
-        brain.message("command.fail", {"command": cmd, "parameters": args, "reason": "internal server error"})
+        message.command_fail(brain, cmd, args)
         return
     data = {
         "players": look_players(brain.player.room)
