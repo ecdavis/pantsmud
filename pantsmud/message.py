@@ -10,3 +10,7 @@ def command_notfound(brain, cmd, args):
 def command_fail(brain, cmd, args):
     log.debug("command_fail")
     brain.message("command.fail", {"command": cmd, "parameters": args})
+
+def command_invalid_input(brain, line):
+    log.debug("command_invalid_input")
+    brain.message("command.invalid_input", {"input": line})

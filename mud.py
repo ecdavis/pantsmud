@@ -3,7 +3,7 @@ import os.path
 
 import pants
 
-from pantsmud import game,  net
+from pantsmud import game, net
 from pantsmud.world import loader
 
 import lib
