@@ -12,6 +12,11 @@ class TestAdd(TestCase):
 class TestRun(TestCase):
     def setUp(self):
         self.name = "test"
+        self.backup_hooks = hook._hooks
+        hook._hooks = {}
+
+    def tearDown(self):
+        hook._hooks = self.backup_hooks
 
     def test_run_non_existent_hook_does_not_fail(self):
         try:
@@ -19,7 +24,7 @@ class TestRun(TestCase):
         except Exception:
             self.fail("Running a non-existent hook must not raise an exception.")
 
-    def test_run_calls_all_hook_functions(self):
+    def test_run_calls_all_functions_for_given_hook_type(self):
         func1 = mock.MagicMock()
         func1.__name__ = "func1"
         func2 = mock.MagicMock()
@@ -37,7 +42,7 @@ class TestRun(TestCase):
         hook.run(self.name, "foo", "bar", baz="omg")
         func.assert_called_once_with(self.name, "foo", "bar", baz="omg")
 
-    def test_run_does_not_call_other_hook_functions(self):
+    def test_run_does_not_call_functions_of_other_hook_types(self):
         func1 = mock.MagicMock()
         func1.__name__ = "func1"
         func2 = mock.MagicMock()
