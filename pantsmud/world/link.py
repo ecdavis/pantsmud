@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary, storage
+from pantsmud import auxiliary
 
 
 class Link(object):
@@ -36,6 +36,3 @@ class Link(object):
     def dest(self, val):
         self.dest_uuid = val.uuid
 
-
-def load_links(links_directory_path):
-    return storage.load_files(links_directory_path, "*.link.json", Link)

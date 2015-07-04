@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary, hook, storage
+from pantsmud import auxiliary, hook
 
 
 class Zone(object):
@@ -46,7 +46,3 @@ class Zone(object):
     def force_reset(self):
         self.reset_timer = 1
         self.pulse()
-
-
-def load_zones(zones_directory_path):
-    return storage.load_files(zones_directory_path, "*.zone.json", Zone)

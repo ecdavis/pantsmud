@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary, storage
+from pantsmud import auxiliary
 
 
 class Room(object):
@@ -57,6 +57,3 @@ class Room(object):
             raise Exception("TODO")  # TODO
         self.link_uuids[link.name] = link.uuid
 
-
-def load_rooms(rooms_directory_path):
-    return storage.load_files(rooms_directory_path, "*.room.json", Room)

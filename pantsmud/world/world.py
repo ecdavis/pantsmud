@@ -1,4 +1,4 @@
-from pantsmud import auxiliary, storage
+from pantsmud import auxiliary
 
 
 class World(object):
@@ -62,7 +62,3 @@ class World(object):
     def force_reset(self):
         for key, zone in self.zones.iteritems():
             zone.force_reset()
-
-
-def load_world(path):
-    return storage.load_file(path, World)
