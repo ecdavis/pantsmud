@@ -7,6 +7,8 @@ from pantsmud.user import session
 
 log = logging.getLogger(__name__)
 
+_server = None
+
 
 class LineStream(pants.Stream):
     def on_connect(self):
@@ -21,3 +23,9 @@ class LineStream(pants.Stream):
     def on_close(self):
         log.debug("on_close: '%s'", self)
         session.close_session(self)
+
+
+def init():
+    global _server
+    _server = pants.Server(LineStream)
+    _server.listen(4040)
