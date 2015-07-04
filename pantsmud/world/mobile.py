@@ -3,13 +3,13 @@ import uuid
 from pantsmud import auxiliary
 
 
-class Player(object):
+class Mobile(object):
     def __init__(self):
         self.uuid = uuid.uuid4()
         self.world = None
         self.brain_uuid = None
         self.room_uuid = None
-        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_PLAYER)
+        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_MOBILE)
 
     @property
     def brain(self):

@@ -10,7 +10,7 @@ class Room(object):
         self.world = None
         self.zone_uuid = None
         self.link_table = {}  # name: uuid
-        self.player_uuids = set()
+        self.mobile_uuids = set()
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_ROOM)
 
     def load_data(self, data):
@@ -35,16 +35,16 @@ class Room(object):
             self.zone_uuid = None
 
     @property
-    def players(self):
-        return set([self.world.players[u] for u in self.player_uuids])
+    def mobiles(self):
+        return set([self.world.mobiles[u] for u in self.mobile_uuids])
 
-    def add_player(self, player):
-        player.room = self
-        self.player_uuids.add(player.uuid)
+    def add_mobile(self, mobile):
+        mobile.room = self
+        self.mobile_uuids.add(mobile.uuid)
 
-    def remove_player(self, player):
-        self.player_uuids.remove(player.uuid)
-        player.room = None
+    def remove_mobile(self, mobile):
+        self.mobile_uuids.remove(mobile.uuid)
+        mobile.room = None
 
     @property
     def links(self):

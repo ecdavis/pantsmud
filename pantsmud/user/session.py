@@ -12,24 +12,24 @@ class Session(object):
         self.uuid = uuid.uuid4()
         self.stream = stream
         self.world = None
-        self.player_uuid = None
+        self.mobile_uuid = None
         self.is_user = True
         self.input_handlers = []
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_SESSION)
 
     @property
-    def player(self):
-        if self.player_uuid is None:
+    def mobile(self):
+        if self.mobile_uuid is None:
             return None
         else:
-            return self.world.players[self.player_uuid]
+            return self.world.mobiles[self.mobile_uuid]
 
-    @player.setter
-    def player(self, val):
+    @mobile.setter
+    def mobile(self, val):
         if val is None:
-            self.player_uuid = None
+            self.mobile_uuid = None
         else:
-            self.player_uuid = val.uuid
+            self.mobile_uuid = val.uuid
 
     @property
     def input_handler(self):

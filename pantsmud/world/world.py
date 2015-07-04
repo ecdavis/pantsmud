@@ -6,7 +6,7 @@ class World(object):
         self.sessions = set()
         self.start_room = None
         self.brains = {}
-        self.players = {}
+        self.mobiles = {}
         self.zones = {}
         self.rooms = {}
         self.links = {}
@@ -23,15 +23,15 @@ class World(object):
         del self.brains[brain.uuid]
         brain.world = None
 
-    def add_player(self, player):
-        player.world = self
-        self.players[player.uuid] = player
-        self.start_room.add_player(player)  # TODO
+    def add_mobile(self, mobile):
+        mobile.world = self
+        self.mobiles[mobile.uuid] = mobile
+        self.start_room.add_mobile(mobile)  # TODO
 
-    def remove_player(self, player):
-        player.room.remove_player(player)  # TODO
-        del self.players[player.uuid]
-        player.world = None
+    def remove_mobile(self, mobile):
+        mobile.room.remove_mobile(mobile)  # TODO
+        del self.mobiles[mobile.uuid]
+        mobile.world = None
 
     def add_zone(self, zone):
         zone.world = self

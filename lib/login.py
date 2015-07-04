@@ -1,7 +1,7 @@
 import logging
 
 from pantsmud import command, game, message
-from pantsmud.world import player
+from pantsmud.world import mobile
 from lib import basic_commands
 
 log = logging.getLogger(__name__)
@@ -14,18 +14,18 @@ def login_command(brain, cmd, args):
         log.error("Brain '%s' tried to execute login_command but it is not a user.", str(brain.uuid))
         message.command_fail(brain, cmd, args)
         return
-    if brain.player:
+    if brain.mobile:
         log.error("Brain '%s' tried to execute login_command but it already has a player '%s'.",
-                  str(brain.uuid), str(brain.player.uuid))
+                  str(brain.uuid), str(brain.mobile.uuid))
         message.command_fail(brain, cmd, args)
         return
     log.debug("login with args: '%s'", args)  # TODO actually log in
     brain.pop_input_handler()
     brain.push_input_handler(command.input_handler, "playing")
-    p = player.Player()
+    p = mobile.Mobile()
     p.brain = brain
-    brain.player = p
-    game.world.add_player(p)
+    brain.mobile = p
+    game.world.add_mobile(p)
     brain.message("login.success")
 
 

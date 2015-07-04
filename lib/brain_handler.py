@@ -1,5 +1,5 @@
 from pantsmud import game, hook
-from pantsmud.world import player
+from pantsmud.world import mobile
 
 from lib import login
 
@@ -9,16 +9,16 @@ def open_brain_hook(_, brain):
     if brain.is_user:
         brain.push_input_handler(login.input_handler, "login")
     else:
-        p = player.Player()
+        p = mobile.Mobile()
         p.brain = brain
-        brain.player = p
-        game.world.add_player(p)
+        brain.mobile = p
+        game.world.add_mobile(p)
 
 
 def close_brain_hook(_, brain):
-    if brain.player:
-        brain.player.brain = None
-        game.world.remove_player(brain.player)
+    if brain.mobile:
+        brain.mobile.brain = None
+        game.world.remove_mobile(brain.mobile)
     game.world.remove_brain(brain)
 
 
