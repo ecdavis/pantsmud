@@ -2,8 +2,7 @@ import logging
 
 from pantsmud import command, game, message
 from pantsmud.world import player
-
-import basic_commands
+from lib import basic_commands
 
 log = logging.getLogger(__name__)
 
@@ -27,6 +26,7 @@ def login_command(brain, cmd, args):
     p.brain = brain
     brain.player = p
     game.world.add_player(p)
+    brain.message("login.success")
 
 
 def input_handler(brain, line):

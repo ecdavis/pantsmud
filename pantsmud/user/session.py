@@ -51,7 +51,7 @@ class Session(object):
             raise Exception("TODO")  # TODO
         return self.input_handlers.pop()
 
-    def message(self, name, data):
+    def message(self, name, data=None):
         if data:
             msg = "%s %s" % (name, json.dumps(data))
         else:

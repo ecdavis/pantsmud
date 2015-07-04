@@ -6,7 +6,8 @@ import pants
 from pantsmud import game, hook, net
 from pantsmud.world import link, player, room, world, zone
 
-import basic_commands, login, look_commands
+import lib
+from lib import login
 
 if __debug__:
     logging.basicConfig(level=logging.DEBUG)
@@ -47,9 +48,7 @@ def close_brain_hook(_, brain):
 engine = pants.Engine.instance()
 
 game.init(engine, w)
-basic_commands.init()
-login.init()
-look_commands.init()
+lib.init()
 hook.add(hook.HOOK_OPEN_BRAIN, open_brain_hook)
 hook.add(hook.HOOK_CLOSE_BRAIN, close_brain_hook)
 
