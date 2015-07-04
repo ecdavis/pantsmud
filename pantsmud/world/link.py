@@ -22,17 +22,28 @@ class Link(object):
 
     @property
     def room(self):
-        return self.world.rooms[self.room_uuid]
+        if self.room_uuid:
+            return self.world.rooms[self.room_uuid]
+        else:
+            return self.room_uuid
 
     @room.setter
     def room(self, val):
-        self.room_uuid = val.uuid
+        if val:
+            self.room_uuid = val.uuid
+        else:
+            self.room_uuid = None
 
     @property
     def dest(self):
-        return self.world.rooms[self.dest_uuid]
+        if self.dest_uuid:
+            return self.world.rooms[self.dest_uuid]
+        else:
+            return self.room_uuid
 
     @dest.setter
     def dest(self, val):
-        self.dest_uuid = val.uuid
-
+        if val:
+            self.dest_uuid = val.uuid
+        else:
+            self.dest_uuid = None

@@ -9,7 +9,7 @@ class Room(object):
         self.name = ""
         self.world = None
         self.zone_uuid = None
-        self.link_uuids = {}  # name: uuid
+        self.link_table = {}  # name: uuid
         self.player_uuids = set()
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_ROOM)
 
@@ -22,22 +22,25 @@ class Room(object):
 
     @property
     def zone(self):
-        if self.zone_uuid is None:
-            return None
-        else:
+        if self.zone_uuid:
             return self.world.zones[self.zone_uuid]
+        else:
+            return self.zone_uuid
 
     @zone.setter
     def zone(self, val):
-        self.zone_uuid = val.uuid
+        if val:
+            self.zone_uuid = val.uuid
+        else:
+            self.zone_uuid = None
 
     @property
     def players(self):
         return set([self.world.players[u] for u in self.player_uuids])
 
     def add_player(self, player):
-        self.player_uuids.add(player.uuid)
         player.room = self
+        self.player_uuids.add(player.uuid)
 
     def remove_player(self, player):
         self.player_uuids.remove(player.uuid)
@@ -45,15 +48,15 @@ class Room(object):
 
     @property
     def links(self):
-        return [self.world.links[u] for u in self.link_uuids.itervalues()]
+        return [self.world.links[u] for u in self.link_table.itervalues()]
 
     def get_link(self, name):
-        if name not in self.link_uuids:
+        if name not in self.link_table:
             raise Exception("TODO")  # TODO
-        return self.world.links[self.link_uuids[name]]
+        return self.world.links[self.link_table[name]]
 
     def add_link(self, link):
-        if link.name in self.link_uuids:
+        if link.name in self.link_table:
             raise Exception("TODO")  # TODO
-        self.link_uuids[link.name] = link.uuid
-
+        link.room = self
+        self.link_table[link.name] = link.uuid

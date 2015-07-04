@@ -10,7 +10,7 @@ class Zone(object):
         self.world = None
         self._reset_interval = -1
         self.reset_timer = -1
-        self.room_uuids = []
+        self.room_uuids = set()
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_ZONE)
 
     def load_data(self, data):
@@ -35,7 +35,8 @@ class Zone(object):
         self._reset_interval = val
 
     def add_room(self, room):
-        self.room_uuids.append(room.uuid)
+        room.zone = self
+        self.room_uuids.add(room.uuid)
 
     def pulse(self):
         self.reset_timer -= 1
