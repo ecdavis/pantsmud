@@ -143,7 +143,7 @@ class TestCommandManagerInputHandler(TestCase):
         self.command_manager.input_handler(brain, self.name + string.whitespace)
         func.assert_called_once_with(brain, self.name, '')
 
-    def test_input_handler_sends_messaage_on_invalid_input(self):
+    def test_input_handler_sends_message_on_invalid_input(self):
         brain = mock.MagicMock()
         self.command_manager.input_handler(brain, "foobar\t")
         self.assertEqual(brain.message.call_count, 1, "CommandManager.input_handler must message the brain if the input is invalid.")

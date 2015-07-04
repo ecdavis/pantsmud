@@ -14,6 +14,8 @@ _hooks = {}
 
 
 def add(name, func):
+    if not callable(func):
+        raise TypeError("'func' must be callable.")
     if name not in _hooks:
         log.debug("Adding new hook type: '%s'", name)
         _hooks[name] = []
