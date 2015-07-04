@@ -3,7 +3,7 @@ import uuid
 from pantsmud import auxiliary
 
 
-class Room(object):
+class Node(object):
     def __init__(self):
         self.uuid = uuid.uuid4()
         self.name = ""
@@ -11,7 +11,7 @@ class Room(object):
         self.zone_uuid = None
         self.link_table = {}  # name: uuid
         self.mobile_uuids = set()
-        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_ROOM)
+        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_NODE)
 
     def load_data(self, data):
         # TODO validation
@@ -39,12 +39,12 @@ class Room(object):
         return set([self.world.mobiles[u] for u in self.mobile_uuids])
 
     def add_mobile(self, mobile):
-        mobile.room = self
+        mobile.node = self
         self.mobile_uuids.add(mobile.uuid)
 
     def remove_mobile(self, mobile):
         self.mobile_uuids.remove(mobile.uuid)
-        mobile.room = None
+        mobile.node = None
 
     @property
     def links(self):
@@ -58,5 +58,5 @@ class Room(object):
     def add_link(self, link):
         if link.name in self.link_table:
             raise Exception("TODO")  # TODO
-        link.room = self
+        link.node = self
         self.link_table[link.name] = link.uuid

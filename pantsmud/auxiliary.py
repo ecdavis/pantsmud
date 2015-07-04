@@ -5,7 +5,7 @@ log = logging.getLogger(__name__)
 AUX_TYPE_ACCOUNT = "account"
 AUX_TYPE_LINK = "exit"
 AUX_TYPE_MOBILE = "mobile"
-AUX_TYPE_ROOM = "room"
+AUX_TYPE_NODE = "node"
 AUX_TYPE_SESSION = "session"
 AUX_TYPE_WORLD = "world"
 AUX_TYPE_ZONE = "zone"
@@ -15,7 +15,7 @@ _auxiliary_classes = {
     AUX_TYPE_ACCOUNT: {},
     AUX_TYPE_LINK: {},
     AUX_TYPE_MOBILE: {},
-    AUX_TYPE_ROOM: {},
+    AUX_TYPE_NODE: {},
     AUX_TYPE_SESSION: {},
     AUX_TYPE_WORLD: {},
     AUX_TYPE_ZONE: {}

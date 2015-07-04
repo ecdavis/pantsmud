@@ -1,13 +1,13 @@
 from pantsmud import storage
-from pantsmud.world import link, room, world, zone
+from pantsmud.world import link, node, world, zone
 
 
 def load_links(links_directory_path):
     return storage.load_files(links_directory_path, "*.link.json", link.Link)
 
 
-def load_rooms(rooms_directory_path):
-    return storage.load_files(rooms_directory_path, "*.room.json", room.Room)
+def load_nodes(nodes_directory_path):
+    return storage.load_files(nodes_directory_path, "*.node.json", node.Node)
 
 
 def load_world(path):

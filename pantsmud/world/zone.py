@@ -10,7 +10,7 @@ class Zone(object):
         self.world = None
         self._reset_interval = -1
         self.reset_timer = -1
-        self.room_uuids = set()
+        self.node_uuids = set()
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_ZONE)
 
     def load_data(self, data):
@@ -21,8 +21,8 @@ class Zone(object):
         self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
 
     @property
-    def rooms(self):
-        return [self.world.rooms[u] for u in self.room_uuids]
+    def nodes(self):
+        return [self.world.nodes[u] for u in self.node_uuids]
 
     @property
     def reset_interval(self):
@@ -34,9 +34,9 @@ class Zone(object):
             self.reset_timer = val
         self._reset_interval = val
 
-    def add_room(self, room):
-        room.zone = self
-        self.room_uuids.add(room.uuid)
+    def add_node(self, node):
+        node.zone = self
+        self.node_uuids.add(node.uuid)
 
     def pulse(self):
         self.reset_timer -= 1
