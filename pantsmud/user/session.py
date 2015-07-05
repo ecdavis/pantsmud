@@ -15,7 +15,7 @@ class Session(object):
         self.mobile_uuid = None
         self.is_user = True
         self.input_handlers = []
-        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_SESSION)
+        self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_BRAIN)
 
     @property
     def mobile(self):
