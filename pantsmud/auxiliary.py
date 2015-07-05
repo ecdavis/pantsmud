@@ -32,11 +32,10 @@ def install(aux_type, name, cls):
 
 
 def new_data(aux_type):
-    assert aux_type in _auxiliary_classes
     data = {}
     if aux_type not in _auxiliary_classes:
         return data
-    for name, cls in _auxiliary_classes[aux_type].itervalues():
+    for name, cls in _auxiliary_classes[aux_type].iteritems():
         data[name] = cls()
     return data
 
@@ -44,7 +43,7 @@ def new_data(aux_type):
 def load_data(aux, data):
     aux_keys = set(aux.keys())
     data_keys = set(data.keys())
-    keys = aux_keys.union(data_keys)
+    keys = aux_keys.intersection(data_keys)
     if __debug__:
         if len(aux_keys.difference(keys)) > 0:
             for key in aux_keys.difference(keys):
@@ -60,5 +59,5 @@ def load_data(aux, data):
 def save_data(aux):
     data = {}
     for key in aux.keys():
-        data[key] = aux.save_data()
+        data[key] = aux[key].save_data()
     return data
