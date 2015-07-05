@@ -1,4 +1,5 @@
 import logging
+import string
 
 import pants
 
@@ -18,7 +19,9 @@ class LineStream(pants.Stream):
 
     def on_read(self, line):
         log.debug("on_read: '%s'", self)
-        game.handle_input(session.get_session(self), line)
+        line = line.strip(string.whitespace)
+        if line:
+            game.handle_input(session.get_session(self), line)
 
     def on_close(self):
         log.debug("on_close: '%s'", self)

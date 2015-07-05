@@ -9,6 +9,9 @@ log = logging.getLogger(__name__)
 
 
 def handle_input(brain, line):
+    if not line:
+        log.debug("Ignoring empty input from brain '%s'.", brain.uuid)
+        return
     if brain.input_handlers:
         brain.input_handler(brain, line)
     else:
