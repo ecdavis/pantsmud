@@ -1,3 +1,11 @@
+"""
+A pub/sub implementation that allows developers to extend the game without having to modify the driver code.
+
+A hook is a mapping of a string to a list of functions. When a hook is run, each function in its list is executed.
+Hooks can be added using the add function and run using the run function. When writing discrete modules for PantsMUD,
+adding your own hooks is strongly encouraged.
+"""
+
 import logging
 
 log = logging.getLogger(__name__)
@@ -13,23 +21,29 @@ HOOK_SHUTDOWN = "shutdown"
 _hooks = {}
 
 
-def add(name, func):
+def add(hook, func):
+    """
+    Add a function to the given hook.
+    """
     if not callable(func):
         raise TypeError("'func' must be callable.")
-    if name not in _hooks:
-        log.debug("Adding new hook type: '%s'", name)
-        _hooks[name] = []
-    assert func not in _hooks[name]
-    log.debug("Adding new hook: '%s', type '%s'", func.__name__, name)
-    _hooks[name].append(func)
+    if hook not in _hooks:
+        log.debug("Adding new hook: '%s'", hook)
+        _hooks[hook] = []
+    assert func not in _hooks[hook]
+    log.debug("Adding new hook function: '%s', hook '%s'", func.__name__, hook)
+    _hooks[hook].append(func)
 
 
-def run(name, *args, **kwargs):
-    if name not in _hooks:
-        log.debug("Tried to run non-existent hook: '%s'", name)
+def run(hook, *args, **kwargs):
+    """
+    Run the given hook, passing the args and kwargs through to all the hook functions.
+    """
+    if hook not in _hooks:
+        log.debug("Tried to run non-existent hook: '%s'", hook)
         return
-    for func in _hooks[name]:
+    for func in _hooks[hook]:
         try:
-            func(name, *args, **kwargs)
+            func(hook, *args, **kwargs)
         except Exception:  # Catch Exception here because we have no control over what hook code will throw.
-            log.exception("Unhandled exception in hook: '%s', func '%s'", name, func.__name__)
+            log.exception("Unhandled exception in hook function: '%s', hook '%s'", func.__name__, hook)
