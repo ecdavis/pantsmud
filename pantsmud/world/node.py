@@ -15,7 +15,7 @@ class Node(object):
     """
     def __init__(self):
         self.uuid = uuid.uuid4()
-        self.name = ""
+        self.name = ""  # TODO this is currently used to build the file path, but it's read from the file data
         self.world = None
         self.zone_uuid = None
         self.link_table = {}  # name: uuid
@@ -42,6 +42,17 @@ class Node(object):
         self.name = data["name"]
         self.zone_uuid = uuid.UUID(data["zone"])
         self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
+
+    def save_data(self):
+        """
+        Returns a dictionary containing Node data ready to be serialized.
+        """
+        return {
+            "uuid": str(self.uuid),
+            "name": self.name,
+            "zone": str(self.zone_uuid),
+            "auxiliary": auxiliary.save_data(self.aux)
+        }
 
     @property
     def zone(self):

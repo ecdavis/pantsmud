@@ -36,6 +36,15 @@ class World(object):
         self.start_node_uuid = uuid.UUID(data["start_node"])
         self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
 
+    def save_data(self):
+        """
+        Returns a dictionary containing World data ready to be serialized.
+        """
+        return {
+            "start_node": str(self.start_node_uuid),
+            "auxiliary": auxiliary.save_data(self.aux)
+        }
+
     @property
     def start_node(self):
         """

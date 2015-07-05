@@ -4,7 +4,7 @@ import os.path
 import pants
 
 from pantsmud import game, net
-from pantsmud.world import loader
+from pantsmud.world import persist
 
 import lib
 
@@ -20,14 +20,21 @@ LINK_PATH = os.path.join(os.path.dirname(WORLD_PATH), "links")
 
 
 def load_world():
-    w = loader.load_world(WORLD_PATH)
-    for z in loader.load_zones(ZONE_PATH):
+    w = persist.load_world(WORLD_PATH)
+    for z in persist.load_zones(ZONE_PATH):
         w.add_zone(z)
-    for r in loader.load_nodes(NODE_PATH):
+    for r in persist.load_nodes(NODE_PATH):
         w.add_node(r)
-    for l in loader.load_links(LINK_PATH):
+    for l in persist.load_links(LINK_PATH):
         w.add_link(l)
     return w
+
+
+def save_world(w):
+    persist.save_links(LINK_PATH, w)
+    persist.save_nodes(NODE_PATH, w)
+    persist.save_zones(ZONE_PATH, w)
+    persist.save_world(WORLD_PATH, w)
 
 engine = pants.Engine.instance()
 world = load_world()
@@ -37,3 +44,5 @@ lib.init()
 net.init()
 
 engine.start()
+
+save_world(world)

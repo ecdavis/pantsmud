@@ -12,7 +12,7 @@ def handle_input(brain, line):
     if brain.input_handlers:
         brain.input_handler(brain, line)
     else:
-        log.warning("Received input from brain '%s' but it has no input handlers attached.", brain.uuid)
+        log.error("Received input from brain '%s' but it has no input handlers attached.", brain.uuid)
 
 
 def pulse_world():

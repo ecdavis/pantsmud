@@ -12,7 +12,7 @@ class Link(object):
     """
     def __init__(self):
         self.uuid = uuid.uuid4()
-        self.name = ""  # TODO remove
+        self.name = ""  # TODO this is currently used to build the file path, but it's read from the file data
         self.world = None
         self.node_uuid = None
         self.dest_uuid = None
@@ -40,6 +40,18 @@ class Link(object):
         self.node_uuid = uuid.UUID(data["node"])
         self.dest_uuid = uuid.UUID(data["dest"])
         self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
+
+    def save_data(self):
+        """
+        Returns a dictionary containing Link data ready to be serialized.
+        """
+        return {
+            "uuid": str(self.uuid),
+            "name": self.name,
+            "node": str(self.node_uuid),
+            "dest": str(self.dest_uuid),
+            "auxiliary": auxiliary.save_data(self.aux)
+        }
 
     @property
     def node(self):

@@ -55,3 +55,10 @@ def load_data(aux, data):
     for key in keys:
         aux[key].load_data(data[key])
     return aux
+
+
+def save_data(aux):
+    data = {}
+    for key in aux.keys():
+        data[key] = aux.save_data()
+    return data

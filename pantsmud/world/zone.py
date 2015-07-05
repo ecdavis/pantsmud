@@ -12,7 +12,7 @@ class Zone(object):
     """
     def __init__(self):
         self.uuid = uuid.uuid4()
-        self.name = ""  # TODO remove
+        self.name = ""  # TODO this is currently used to build the file path, but it's read from the file data
         self.world = None
         self._reset_interval = -1
         self.reset_timer = -1
@@ -39,6 +39,17 @@ class Zone(object):
         self.name = data["name"]
         self.reset_interval = data["reset_interval"]
         self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
+
+    def save_data(self):
+        """
+        Returns a dictionary containing Zone data ready to be serialized.
+        """
+        return {
+            "uuid": str(self.uuid),
+            "name": self.name,
+            "reset_interval": self.reset_interval,
+            "auxiliary": auxiliary.save_data(self.aux)
+        }
 
     @property
     def nodes(self):
