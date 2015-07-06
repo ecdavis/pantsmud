@@ -34,7 +34,7 @@ class Link(object):
                 "auxiliary": <dict>  # This will be passed to pantsmud.auxiliary.load_data
             }
         """
-        # TODO Validation
+        # TODO validate loaded data
         self.uuid = uuid.UUID(data["uuid"])
         self.name = data["name"]
         self.node_uuid = uuid.UUID(data["node"])

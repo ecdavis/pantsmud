@@ -34,7 +34,7 @@ class Zone(object):
                 "auxiliary": <dict>  # This will be passed to pantsmud.auxiliary.load_data
             }
         """
-        # TODO validation
+        # TODO validate loaded data
         self.uuid = uuid.UUID(data["uuid"])
         self.name = data["name"]
         self.reset_interval = data["reset_interval"]

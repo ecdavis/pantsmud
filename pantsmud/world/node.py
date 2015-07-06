@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary
+from pantsmud import auxiliary, error
 
 
 class Node(object):
@@ -37,7 +37,7 @@ class Node(object):
                 "auxiliary": <dict>  # This will be passed to pantsmud.auxiliary.load_data
             }
         """
-        # TODO validation
+        # TODO validate loaded data
         self.uuid = uuid.UUID(data["uuid"])
         self.name = data["name"]
         self.zone_uuid = uuid.UUID(data["zone"])
@@ -102,13 +102,13 @@ class Node(object):
         """
         return [self.world.links[u] for u in self.link_table.itervalues()]
 
-    # TODO Remove this method or change it to use Link.uuid
+    # TODO remove this method or change it to use Link.uuid
     def get_link(self, name):
         """
         Get the Link with the given game if it is contained by this Node.
         """
         if name not in self.link_table:
-            raise Exception("TODO")  # TODO
+            raise error.LinkNotFound("Node '%s' does not contain a Link with name '%s'." % (str(self.uuid), name))
         return self.world.links[self.link_table[name]]
 
     def add_link(self, link):
@@ -116,6 +116,9 @@ class Node(object):
         Add a Link to the Node.
         """
         if link.name in self.link_table:
-            raise Exception("TODO")  # TODO
+            raise error.LinkAlreadyExists(
+                "Node '%s' already contains a Link with name '%s'." % (str(self.uuid),
+                                                                       link.name)
+            )
         link.node = self
         self.link_table[link.name] = link.uuid

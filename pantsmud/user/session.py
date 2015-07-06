@@ -2,7 +2,7 @@ import logging
 import json
 import uuid
 
-from pantsmud import auxiliary, hook
+from pantsmud import auxiliary, error, hook
 
 _sessions = {}
 
@@ -34,13 +34,13 @@ class Session(object):
     @property
     def input_handler(self):
         if len(self.input_handlers) == 0:
-            raise Exception("TODO")  # TODO
+            raise error.BrainMissingInputHandlers("Session '%s' has no input handlers." % (str(self.uuid)))
         return self.input_handlers[-1][0]
 
     @property
     def state(self):
         if len(self.input_handlers) == 0:
-            raise Exception("TODO")  # TODO
+            raise error.BrainMissingInputHandlers("Session '%s' has no input handlers." % (str(self.uuid)))
         return self.input_handlers[-1][1]
 
     def push_input_handler(self, func, state):
@@ -48,7 +48,7 @@ class Session(object):
 
     def pop_input_handler(self):
         if len(self.input_handlers) == 0:
-            raise Exception("TODO")  # TODO
+            raise error.BrainMissingInputHandlers("Session '%s' has no input handlers." % (str(self.uuid)))
         return self.input_handlers.pop()
 
     def message(self, name, data=None):
@@ -78,11 +78,8 @@ def open_session(stream):
 def close_session(stream):
     logging.debug("close_session")
     s = _sessions[stream]
-    if s is not None:
-        hook.run(hook.HOOK_CLOSE_BRAIN, s)
-        del _sessions[stream]
-    else:
-        raise Exception("TODO")  # TODO
+    hook.run(hook.HOOK_CLOSE_BRAIN, s)
+    del _sessions[stream]
 
 
 def get_session(stream):

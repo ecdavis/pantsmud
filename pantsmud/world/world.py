@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary
+from pantsmud import auxiliary, error
 
 
 class World(object):
@@ -85,13 +85,13 @@ class World(object):
         """
         mobile.world = self
         self.mobiles[mobile.uuid] = mobile
-        self.start_node.add_mobile(mobile)  # TODO
+        self.start_node.add_mobile(mobile)  # TODO improve the whole start_node business
 
     def remove_mobile(self, mobile):
         """
         Remove a Mobile from the World.
         """
-        mobile.node.remove_mobile(mobile)  # TODO
+        mobile.node.remove_mobile(mobile)  # TODO improve
         del self.mobiles[mobile.uuid]
         mobile.world = None
 
@@ -107,7 +107,11 @@ class World(object):
         Add a Node to the World.
         """
         if node.zone_uuid not in self.zones:
-            raise Exception("TODO")  # TODO
+            raise error.ZoneNotFound(
+                "Node '%s' has zone_uuid '%s' that was not found on the World '%r'." % (str(node.uuid),
+                                                                                        str(node.zone_uuid),
+                                                                                        self)
+            )
         node.world = self
         node.zone.add_node(node)
         self.nodes[node.uuid] = node
@@ -117,9 +121,17 @@ class World(object):
         Add a Link to the World.
         """
         if link.node_uuid not in self.nodes:
-            raise Exception("TODO")  # TODO
+            raise error.NodeNotFound(
+                "Link '%s' has node_uuid '%s' that was not found on the World '%r'." % (str(link.uuid),
+                                                                                        str(link.node_uuid),
+                                                                                        self)
+            )
         if link.dest_uuid not in self.nodes:
-            raise Exception("TODO")  # TODO
+            raise error.NodeNotFound(
+                "Link '%s' has dest_uuid '%s' that was not found on the World '%r'." % (str(link.uuid),
+                                                                                        str(link.dest_uuid),
+                                                                                        self)
+            )
         link.world = self
         link.node.add_link(link)
         self.links[link.uuid] = link
