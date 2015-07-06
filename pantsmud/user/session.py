@@ -19,17 +19,17 @@ class Session(object):
 
     @property
     def mobile(self):
-        if self.mobile_uuid is None:
-            return None
-        else:
+        if self.mobile_uuid:
             return self.world.mobiles[self.mobile_uuid]
+        else:
+            return None
 
     @mobile.setter
-    def mobile(self, val):
-        if val is None:
-            self.mobile_uuid = None
+    def mobile(self, mobile):
+        if mobile:
+            self.mobile_uuid = mobile.uuid
         else:
-            self.mobile_uuid = val.uuid
+            self.mobile_uuid = None
 
     @property
     def input_handler(self):
@@ -73,6 +73,7 @@ def open_session(stream):
     s = Session(stream)
     _sessions[stream] = s
     hook.run(hook.HOOK_OPEN_BRAIN, s)
+    return s
 
 
 def close_session(stream):
@@ -80,6 +81,7 @@ def close_session(stream):
     s = _sessions[stream]
     hook.run(hook.HOOK_CLOSE_BRAIN, s)
     del _sessions[stream]
+    return s
 
 
 def get_session(stream):
