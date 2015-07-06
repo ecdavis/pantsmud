@@ -134,6 +134,15 @@ class TestCommandManagerInputHandler(TestCase):
             self.command_manager.input_handler(mock.MagicMock(), c + self.name)
         self.assertEqual(func.call_count, 0, "CommandManager.input_handler must not run a command if the first character is a digit.")
 
+    def test_input_handler_does_not_run_command_when_input_contains_invalid_characters(self):
+        func = mock.MagicMock()
+        func.__name__ = "func"
+        self.command_manager.add(self.name, func)
+
+        line = self.name + " foo\t\r\n\tbar"
+        self.command_manager.input_handler(mock.MagicMock(), line)
+        self.assertEqual(func.call_count, 0, "CommandManager.input_handler must not run a command if the input contains invalid characters.")
+
     def test_input_handler_strips_whitespace_and_runs_command_when_input_ends_with_whitespace(self):
         func = mock.MagicMock()
         func.__name__ = "func"

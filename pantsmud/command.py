@@ -65,7 +65,7 @@ class CommandManager(object):
         if self.exists(cmd):
             self.run(brain, cmd, args)
         else:
-            message.command_notfound(brain, cmd, args)
+            message.command_not_found(brain, cmd, args)
 
 
 _command_manager = CommandManager(__name__)
