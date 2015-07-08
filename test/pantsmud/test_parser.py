@@ -83,3 +83,11 @@ class TestParse(TestCase):
         pattern = [("foo", parser.WORD)]
         token_string = "bar baz"
         self.assertRaises(command.CommandError, self.parser.parse, pattern, token_string)
+
+
+class TestAddTokenType(TestCase):
+    def setUp(self):
+        self.parser = parser.Parser()
+
+    def test_add_token_type_raises_TypeError_when_type_func_is_not_callable(self):
+        self.assertRaises(TypeError, self.parser.add_token_type, "test", None)
