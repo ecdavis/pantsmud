@@ -3,6 +3,11 @@ import logging
 log = logging.getLogger(__name__)
 
 
+def command_error(brain, cmd, args, message):
+    log.debug("command_error")
+    brain.message("command.error", {"command": cmd, "parameters": args, "error": message})
+
+
 def command_not_found(brain, cmd, args):
     log.debug("command_not_found")
     brain.message("command.not_found", {"command": cmd, "parameters": args})

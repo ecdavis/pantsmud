@@ -1,6 +1,6 @@
 import logging
 
-from pantsmud import command, message
+from pantsmud import command, message, parser
 
 log = logging.getLogger(__name__)
 
@@ -19,6 +19,7 @@ def look_links(node):
 
 def look_command(brain, cmd, args):
     log.debug(look_command.__name__)
+    parser.parse([], args)
     if not brain_can_look(brain, cmd):
         message.command_fail(brain, cmd, args)
         return
@@ -32,6 +33,7 @@ def look_command(brain, cmd, args):
 
 def look_node_command(brain, cmd, args):
     log.debug(look_node_command.__name__)
+    parser.parse([], args)
     if not brain_can_look(brain, cmd):
         message.command_fail(brain, cmd, args)
         return
@@ -43,6 +45,7 @@ def look_node_command(brain, cmd, args):
 
 def look_links_command(brain, cmd, args):
     log.debug(look_links_command.__name__)
+    parser.parse([], args)
     if not brain_can_look(brain, cmd):
         message.command_fail(brain, cmd, args)
         return
@@ -54,6 +57,7 @@ def look_links_command(brain, cmd, args):
 
 def look_mobiles_command(brain, cmd, args):
     log.debug(look_mobiles_command.__name__)
+    parser.parse([], args)
     if not brain_can_look(brain, cmd):
         message.command_fail(brain, cmd, args)
         return

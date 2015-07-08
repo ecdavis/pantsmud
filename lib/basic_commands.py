@@ -1,38 +1,35 @@
 import logging
 
-from pantsmud import command, hook
+from pantsmud import command, hook, parser
 
 
 def say_command(brain, cmd, args):
     logging.debug("say_command")
+    params = parser.parse([("sentence", parser.STRING)], args.split(' '))
     for p in brain.mobile.node.mobiles:
-        p.brain.message("mobile.say", {"mobile": str(brain.mobile.uuid), "text": args})
+        p.brain.message("mobile.say", {"mobile": str(brain.mobile.uuid), "text": params["sentence"]})
 
 
 def move_command(brain, cmd, args):
     logging.debug("move_command")
-    if not args:
-        brain.write_line("Too few arguments. Usage: move <link>")
-        return
-    if ' ' in args:
-        brain.write_line("Too many arguments. Usage: move <link>")
-        return
-    link_name = args.lower()
+    params = parser.parse([("link_name", parser.WORD)], args)
+    link_name = params["link_name"]
     try:
         dest = brain.mobile.node.get_link(link_name).dest
     except Exception:
-        brain.write_line("No link '%s' exists." % link_name)
-        return
+        raise command.CommandError("No link '%s' exists." % link_name)
     brain.mobile.node.remove_mobile(brain.mobile)
     dest.add_mobile(brain.mobile)
 
 
 def quit_command(brain, cmd, args):
     logging.debug("quit_command")
+    parser.parse([], args)
     brain.close()
 
 
 def shutdown_command(brain, cmd, args):
+    parser.parse([], args)
     hook.run(hook.HOOK_SHUTDOWN)
 
 
