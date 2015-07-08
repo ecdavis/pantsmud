@@ -130,16 +130,16 @@ class TestSaveObject(TestCase):
 
 class TestSaveObjects(TestCase):
     def setUp(self):
+        self.extension = ".test.json"
         self.d1 = {"key1": "value1", "key2": "value2"}
         self.d2 = {"key3": "value3", "key4": "value4"}
         self.obj1 = Obj()
-        self.obj1.name = "test1"
+        self.obj1.name = "test1" + self.extension
         self.obj1.save_data = mock.Mock(return_value=self.d1)
         self.obj2 = Obj()
-        self.obj2.name = "test2"
+        self.obj2.name = "test2" + self.extension
         self.obj2.save_data = mock.Mock(return_value=self.d2)
         self.path = os.path.dirname(__file__)
-        self.extension = ".test.json"
 
     def tearDown(self):
         for path in glob.glob("%s/%s" % (self.path, '*'+self.extension)):

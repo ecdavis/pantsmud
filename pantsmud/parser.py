@@ -92,10 +92,10 @@ class Parser(object):
         """
         results = []
         for token_name, type_func in self._validate_pattern(pattern):
+            token_string = token_string.lstrip(' ')
             if not token_string:
                 raise ParseError("Not enough parameters supplied to command.")
             value, token_string = type_func(token_string)
-            token_string = token_string.lstrip(' ')
             results.append((token_name, value))
         if token_string:
             raise ParseError("Too many parameters supplied to command.")
