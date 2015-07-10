@@ -1,8 +1,8 @@
-import mock
 from unittest import TestCase
 
-from pantsmud import hook, error
-from pantsmud.user import session
+import mock
+
+from pantsmud.driver import session, error, hook
 
 
 class TestSessionClass(TestCase):

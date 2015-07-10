@@ -1,11 +1,11 @@
 import glob
 import os
 import os.path
-
-import mock
 from unittest import TestCase
 
-from pantsmud import storage
+import mock
+
+from pantsmud.driver import storage
 
 
 def check_and_remove(path):

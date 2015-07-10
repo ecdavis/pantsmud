@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pantsmud import command, parser
+from pantsmud.driver import command, parser
 
 
 class TestParse(TestCase):

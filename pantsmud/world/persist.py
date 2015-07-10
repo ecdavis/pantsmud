@@ -1,4 +1,4 @@
-from pantsmud import storage
+from pantsmud.driver import storage
 from pantsmud.world import link, node, world, zone
 
 

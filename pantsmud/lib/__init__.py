@@ -1,4 +1,5 @@
-from lib import basic_commands, brain_handler, login, look_commands
+from pantsmud.lib import basic_commands, brain_handler, login, look_commands
+
 
 def init():
     basic_commands.init()

@@ -1,6 +1,6 @@
 import logging
 
-from pantsmud import command, message, parser
+from pantsmud.driver import command, message, parser
 
 log = logging.getLogger(__name__)
 

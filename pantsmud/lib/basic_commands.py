@@ -1,6 +1,6 @@
 import logging
 
-from pantsmud import command, hook, parser
+from pantsmud.driver import command, parser, hook
 
 
 def say_command(brain, cmd, args):
@@ -8,6 +8,11 @@ def say_command(brain, cmd, args):
     params = parser.parse([("sentence", parser.STRING)], args.split(' '))
     for p in brain.mobile.node.mobiles:
         p.brain.message("mobile.say", {"mobile": str(brain.mobile.uuid), "text": params["sentence"]})
+
+
+def tell_command(brain, cmd, args):
+    target, message = parser.parse((("target", parser.PLAYER), ("message", parser.STRING)), args)
+    target.message("tell", {"from": brain.mobile.name, "message": message})
 
 
 def move_command(brain, cmd, args):

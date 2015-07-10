@@ -1,7 +1,6 @@
 import logging
 
-from pantsmud import hook
-
+from pantsmud.driver import hook
 
 engine = None
 world = None

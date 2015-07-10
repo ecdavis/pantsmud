@@ -2,7 +2,7 @@ import logging
 import json
 import uuid
 
-from pantsmud import auxiliary, error, hook
+from pantsmud.driver import error, hook, auxiliary
 
 _sessions = {}
 

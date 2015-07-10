@@ -1,7 +1,8 @@
-import mock
 from unittest import TestCase
 
-from pantsmud import auxiliary
+import mock
+
+from pantsmud.driver import auxiliary
 
 
 class Aux(object):

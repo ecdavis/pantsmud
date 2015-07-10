@@ -1,8 +1,9 @@
-import mock
 import string
 from unittest import TestCase
 
-from pantsmud import command
+import mock
+
+from pantsmud.driver import command
 
 
 class TestCommandManagerAdd(TestCase):

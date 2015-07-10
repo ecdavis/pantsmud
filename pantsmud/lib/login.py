@@ -1,8 +1,8 @@
 import logging
 
-from pantsmud import command, game, message
+from pantsmud.driver import command, game, message
 from pantsmud.world import mobile
-from lib import basic_commands
+from pantsmud.lib import basic_commands
 
 log = logging.getLogger(__name__)
 

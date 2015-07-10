@@ -1,7 +1,8 @@
-import mock
 from unittest import TestCase
 
-from pantsmud import hook
+import mock
+
+from pantsmud.driver import hook
 
 
 class TestAdd(TestCase):

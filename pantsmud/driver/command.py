@@ -1,7 +1,7 @@
 import logging
 import string
 
-from pantsmud import message
+from pantsmud.driver import message
 
 log = logging.getLogger(__name__)
 valid_input_characters = string.ascii_letters + string.digits + string.punctuation + ' '

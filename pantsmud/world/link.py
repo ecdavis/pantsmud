@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary
+from pantsmud.driver import auxiliary
 
 
 class Link(object):

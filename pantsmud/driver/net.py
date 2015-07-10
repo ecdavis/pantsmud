@@ -3,8 +3,7 @@ import string
 
 import pants
 
-from pantsmud import game
-from pantsmud.user import session
+from pantsmud.driver import session, game
 
 log = logging.getLogger(__name__)
 

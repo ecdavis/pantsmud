@@ -1,7 +1,7 @@
-from pantsmud import game, hook
+from pantsmud.driver import game, hook
 from pantsmud.world import mobile
 
-from lib import login
+from pantsmud.lib import login
 
 
 def open_brain_hook(_, brain):

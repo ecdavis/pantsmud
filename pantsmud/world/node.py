@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary, error
+from pantsmud.driver import error, auxiliary
 
 
 class Node(object):

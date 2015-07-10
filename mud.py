@@ -3,10 +3,9 @@ import os.path
 
 import pants
 
-from pantsmud import game, net
+from pantsmud.driver import game, net
+import pantsmud.lib
 from pantsmud.world import persist
-
-import lib
 
 if __debug__:
     logging.basicConfig(level=logging.DEBUG)
@@ -40,7 +39,7 @@ engine = pants.Engine.instance()
 world = load_world()
 
 game.init(engine, world)
-lib.init()
+pantsmud.lib.init()
 net.init()
 
 engine.start()

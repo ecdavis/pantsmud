@@ -1,6 +1,6 @@
 import uuid
 
-from pantsmud import auxiliary, hook
+from pantsmud.driver import hook, auxiliary
 
 
 class Zone(object):

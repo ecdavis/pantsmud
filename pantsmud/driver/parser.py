@@ -2,8 +2,7 @@
 An extensible parser that can be used to validate user input.
 """
 
-from pantsmud import command
-
+from pantsmud.driver import command
 
 STRING = "string"
 WORD = "word"
