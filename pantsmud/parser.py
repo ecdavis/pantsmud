@@ -34,14 +34,15 @@ class Parser(object):
     be words, numbers, UUIDs, game objects or anything else that can be represented as or identified by a string.
 
     A token type is a key value pair where the key is the name of the token type and the value is a function which can
-    parse the value of a token with that token type from the beginning of a token string.
+    parse a token of that type from the beginning of a token string.
 
     A pattern is an ordered collection of rules for reading tokens from a token string. Each token type referenced by
     the pattern is matched against the token string until either all token types have been successfully matched or a
     failure occurs.
 
     Adding custom token types to a parser is the primary method of extending it, as it allows a developer to add
-    parsing functions which can read custom game objects from token strings. For instance,
+    parsing functions which can read custom game objects from token strings. For instance, a PLAYER token type could be
+    defined which would parse a player name and return a player object.
 
     An example pattern:
 
@@ -51,7 +52,7 @@ class Parser(object):
 
     An example token string which matches the above pattern:
 
-        "Pants 5 A lightweight framework for writing asynchronous network application in Python."
+        "Pants 2011 A lightweight framework for writing asynchronous network application in Python."
 
     If we were to parse this string using the above pattern, we would get the result:
 
