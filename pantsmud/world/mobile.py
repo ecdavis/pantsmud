@@ -20,7 +20,7 @@ class Mobile(object):
     @property
     def brain(self):
         """
-        Get the Brain attached to this Mobile.
+        Get the Mobile's Brain, if it has one.
         """
         if self.brain_uuid:
             return self.world.brains[self.brain_uuid]
@@ -30,7 +30,7 @@ class Mobile(object):
     @brain.setter
     def brain(self, brain):
         """
-        Attach a Brain to this Mobile.
+        Set the Mobile's Brain.
         """
         if brain:
             self.brain_uuid = brain.uuid
@@ -56,3 +56,24 @@ class Mobile(object):
             self.node_uuid = node.uuid
         else:
             self.node_uuid = None
+
+    def attach_brain(self, brain):
+        """
+        Attach a Brain to this Mobile.
+        """
+        self.brain = brain
+        brain.mobile = self
+
+    def detach_brain(self):
+        """
+        Detach a Brain from this Mobile.
+        """
+        self.brain.mobile = None
+        self.brain = None
+
+    def message(self, name, data=None):
+        """
+        Send a message to the Mobile's Brain, if it has one.
+        """
+        if self.brain:
+            self.brain.message(name, data)
