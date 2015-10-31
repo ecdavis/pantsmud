@@ -4,26 +4,12 @@ An extensible parser that can be used to validate user input.
 
 import uuid
 
-from pantsmud.driver import command
+from pantsmud.driver import error
 
 STRING = "string"
 WORD = "word"
 INT = "int"
 UUID = "uuid"
-
-
-class ParseError(command.CommandError):
-    """
-    Raised when an error is found in a token string passed to a parser.
-    """
-    pass
-
-
-class PatternError(Exception):
-    """
-    Raised when an error is found in a pattern passed to a parser.
-    """
-    pass
 
 
 class Parser(object):
@@ -98,18 +84,18 @@ class Parser(object):
         for token_name, type_func in self._validate_pattern(pattern):
             token_string = token_string.lstrip(' ')
             if not token_string:
-                raise ParseError("Not enough parameters supplied to command.")
+                raise error.ParseError("Not enough parameters supplied to command.")
             value, token_string = type_func(token_string)
             results.append((token_name, value))
         if token_string:
-            raise ParseError("Too many parameters supplied to command.")
+            raise error.ParseError("Too many parameters supplied to command.")
         return dict(results)
 
     def _validate_pattern(self, pattern):
         for token_name, type_name in pattern:
             if type_name not in self._token_types:
-                raise PatternError("Token type '%s' in pattern '%r' not found on parser class '%s'" %
-                                   (type_name, repr(pattern), self.__class__.__name__))
+                raise error.PatternError("Token type '%s' in pattern '%r' not found on parser class '%s'" %
+                                         (type_name, repr(pattern), self.__class__.__name__))
             yield (token_name, self._token_types[type_name])
 
 
@@ -143,7 +129,7 @@ def parse_int(params):
     try:
         return int(value), rest
     except ValueError:
-        raise ParseError("Invalid parameter value: '%s'" % value)
+        raise error.ParseError("Invalid parameter value: '%s'" % value)
 
 
 def parse_uuid(params):
@@ -159,7 +145,7 @@ def parse_uuid(params):
     try:
         return uuid.UUID(value), rest
     except ValueError:
-        raise ParseError("Invalid parameter value: '%s'" % value)
+        raise error.ParseError("Invalid parameter value: '%s'" % value)
 
 
 _parser = Parser()

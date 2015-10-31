@@ -1,14 +1,10 @@
 import logging
 import string
 
-from pantsmud.driver import message
+from pantsmud.driver import error, message
 
 log = logging.getLogger(__name__)
 valid_input_characters = string.ascii_letters + string.digits + string.punctuation + ' '
-
-
-class CommandError(Exception):
-    pass
 
 
 class CommandManager(object):
@@ -45,7 +41,7 @@ class CommandManager(object):
             raise KeyError("Command '%s' does not exist in command manager '%s'" % (cmd, self.name))
         try:
             self._commands[cmd](brain, cmd, args)
-        except CommandError:
+        except error.CommandError:
             raise
         except Exception:  # Catch Exception here because we have no control over what command code will throw.
             log.exception("Unhandled exception in command: '%s', func '%s', manager '%s'",
@@ -71,13 +67,13 @@ class CommandManager(object):
         if self.exists(cmd):
             try:
                 self.run(brain, cmd, args)
-            except CommandError as e:
+            except error.CommandError as e:
                 message.command_error(brain, cmd, args, e.message)
         else:
             message.command_not_found(brain, cmd, args)
 
 
 _command_manager = CommandManager(__name__)
-add = _command_manager.add
-exists = _command_manager.exists
-input_handler = _command_manager.input_handler
+add_command = _command_manager.add
+command_exists = _command_manager.exists
+command_input_handler = _command_manager.input_handler
