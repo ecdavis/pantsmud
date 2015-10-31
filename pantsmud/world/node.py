@@ -1,6 +1,10 @@
 import uuid
 
-from pantsmud.driver import error, auxiliary
+from pantsmud.driver import hook, error, auxiliary
+
+
+HOOK_NODE_ADD_MOBILE = "node_add_mobile"
+HOOK_NODE_REMOVE_MOBILE = "node_remove_mobile"
 
 
 class Node(object):
@@ -87,11 +91,13 @@ class Node(object):
         """
         mobile.node = self
         self.mobile_uuids.add(mobile.uuid)
+        hook.run(HOOK_NODE_ADD_MOBILE, self, mobile)
 
     def remove_mobile(self, mobile):
         """
         Remove a Mobile from the Node.
         """
+        hook.run(HOOK_NODE_REMOVE_MOBILE, self, mobile)
         self.mobile_uuids.remove(mobile.uuid)
         mobile.node = None
 
