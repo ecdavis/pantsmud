@@ -2,11 +2,14 @@
 An extensible parser that can be used to validate user input.
 """
 
+import uuid
+
 from pantsmud.driver import command
 
 STRING = "string"
 WORD = "word"
 INT = "int"
+UUID = "uuid"
 
 
 class ParseError(command.CommandError):
@@ -27,7 +30,7 @@ class Parser(object):
     """
     An extensible parsing object.
 
-    Parsing works with three fundamental structures: token strings, token types and patterns.
+    Parsing works with three fundamental structures: token strings, token types, and patterns.
 
     A token string is a string - typically user input - that contains an ordered collection of tokens. The tokens could
     be words, numbers, UUIDs, game objects or anything else that can be represented as or identified by a string.
@@ -70,6 +73,7 @@ class Parser(object):
         self.add_token_type(STRING, parse_string)
         self.add_token_type(WORD, parse_word)
         self.add_token_type(INT, parse_int)
+        self.add_token_type(UUID, parse_uuid)
 
     def add_token_type(self, type_name, type_func):
         """
@@ -138,6 +142,22 @@ def parse_int(params):
         value, rest = params, ''
     try:
         return int(value), rest
+    except ValueError:
+        raise ParseError("Invalid parameter value: '%s'" % value)
+
+
+def parse_uuid(params):
+    """
+    Parse a single UUID from a token string.
+
+    Raises a ParseError if the token value cannot be converted to a UUID.
+    """
+    if ' ' in params:
+        value, rest = params.split(' ', 1)
+    else:
+        value, rest = params, ''
+    try:
+        return uuid.UUID(value), rest
     except ValueError:
         raise ParseError("Invalid parameter value: '%s'" % value)
 
