@@ -43,6 +43,10 @@ class Session(object):
             raise error.BrainMissingInputHandlers("Session '%s' has no input handlers." % (str(self.uuid)))
         return self.input_handlers[-1][1]
 
+    def replace_input_handler(self, func, state):
+        self.pop_input_handler()
+        self.push_input_handler(func, state)
+
     def push_input_handler(self, func, state):
         self.input_handlers.append((func, state))
 
