@@ -19,6 +19,7 @@ def handle_input(brain, line):
 
 def pulse_world():
     log.info("Pulsing world...")
+    world.pulse()
 
 
 def reset_zone_hook(_, zone):
