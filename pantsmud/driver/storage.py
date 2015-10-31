@@ -2,6 +2,7 @@
 A collection of functions to enable saving/loading of arbitrary game objects to/from disk.
 """
 
+import base64
 import glob
 import json
 import logging
@@ -70,7 +71,7 @@ def save_objects(path, extension, objs):
     if not os.path.isdir(path):
         raise IOError("Path is not directory: '%s'" % path)
     for obj in objs:
-        obj_path = "%s/%s%s" % (path, obj.name, extension)
+        obj_path = "%s/%s%s" % (path, base64.b32encode(obj.uuid.bytes)[:-6], extension)
         save_object(obj_path, obj)
 
 
