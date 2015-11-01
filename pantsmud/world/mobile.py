@@ -17,6 +17,32 @@ class Mobile(object):
         self.node_uuid = None
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_MOBILE)
 
+    def load_data(self, data):
+        """
+        Loads a dictionary containing saved Mobile data onto the object.
+
+        This method expects well-formed data. It will validate all fields and raise an exception if any of the data is
+        invalid.
+
+        Data layout:
+            {
+                "uuid": "<uuid>",
+                "auxiliary": <dict>  # This will be passed to pantsmud.auxiliary.load_data
+            }
+        """
+        # TODO validate loaded data
+        self.uuid = uuid.UUID(data["uuid"])
+        self.aux = auxiliary.load_data(self.aux, data["auxiliary"])
+
+    def save_data(self):
+        """
+        Returns a dictionary containing Mobile data ready to be serialized.
+        """
+        return {
+            "uuid": str(self.uuid),
+            "auxiliary": auxiliary.save_data(self.aux)
+        }
+
     @property
     def brain(self):
         """
