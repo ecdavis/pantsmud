@@ -4,8 +4,9 @@ import os.path
 import pants
 
 from pantsmud.driver import game, net
-import pantsmud.lib
 from pantsmud.world import persist
+
+import spacegame
 
 if __debug__:
     logging.basicConfig(level=logging.DEBUG)
@@ -35,13 +36,18 @@ def save_world(w):
     persist.save_zones(ZONE_PATH, w)
     persist.save_world(WORLD_PATH, w)
 
+# Initialize game.
+spacegame.init()
+
+# Initialize MUD driver.
 engine = pants.Engine.instance()
 world = load_world()
-
 game.init(engine, world)
-pantsmud.lib.init()
+
+# Initialize networking.
 net.init()
 
+# Start game.
 engine.start()
 
 save_world(world)
