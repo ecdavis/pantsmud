@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pantsmud.driver import command, parser
+from pantsmud.driver import command, error, parser
 
 
 class TestParse(TestCase):
@@ -62,27 +62,27 @@ class TestParse(TestCase):
     def test_parse_raises_PatternError_if_token_type_does_not_exist(self):
         pattern = [("foo", "bar")]
         token_string = "baz"
-        self.assertRaises(parser.PatternError, self.parser.parse, pattern, token_string)
+        self.assertRaises(error.PatternError, self.parser.parse, pattern, token_string)
 
     def test_parse_raises_CommandError_if_int_param_is_not_an_int(self):
         pattern = [("foo", parser.INT)]
         token_string = "bar"
-        self.assertRaises(command.CommandError, self.parser.parse, pattern, token_string)
+        self.assertRaises(error.CommandError, self.parser.parse, pattern, token_string)
 
     def test_parse_raises_CommandError_if_pattern_has_rules_but_token_string_is_only_whitespace(self):
         pattern = [("foo", parser.WORD)]
         token_string = "    "
-        self.assertRaises(command.CommandError, self.parser.parse, pattern, token_string)
+        self.assertRaises(error.CommandError, self.parser.parse, pattern, token_string)
 
     def test_parse_raises_CommandError_if_number_of_params_is_less_than_length_of_pattern(self):
         pattern = [("foo", parser.WORD), ("bar", parser.WORD)]
         token_string = "baz"
-        self.assertRaises(command.CommandError, self.parser.parse, pattern, token_string)
+        self.assertRaises(error.CommandError, self.parser.parse, pattern, token_string)
 
     def test_parse_raises_CommandError_if_number_of_params_is_greater_than_length_of_pattern(self):
         pattern = [("foo", parser.WORD)]
         token_string = "bar baz"
-        self.assertRaises(command.CommandError, self.parser.parse, pattern, token_string)
+        self.assertRaises(error.CommandError, self.parser.parse, pattern, token_string)
 
 
 class TestAddTokenType(TestCase):
