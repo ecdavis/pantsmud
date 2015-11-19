@@ -1,1 +1,5 @@
-__author__ = 'Evan Davis'
+import spacegame.comm.broadcast
+
+
+def init():
+    spacegame.comm.broadcast.init()
