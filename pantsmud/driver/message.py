@@ -21,3 +21,8 @@ def command_fail(brain, cmd, args):
 def command_invalid_input(brain, line):
     log.debug("command_invalid_input")
     brain.message("command.invalid_input", {"input": line})
+
+
+def command_internal_error(brain):
+    log.debug("command_internal_error")
+    brain.message("command.internal_error")
