@@ -1,5 +1,4 @@
 import spacegame.brain_handler
-import spacegame.comm
 import spacegame.login
 import spacegame.move
 import spacegame.playing
@@ -14,7 +13,6 @@ def init():
     # Command init
     spacegame.playing.init()
     spacegame.move.init()
-    spacegame.comm.init()
     spacegame.info.init()
     spacegame.ship.init()
 
