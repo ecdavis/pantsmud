@@ -1,6 +1,7 @@
 from pantsmud.driver import auxiliary, parser
 
 from spacegame import command
+from spacegame.ship import thrusters
 
 
 SHIP_AUX = "ship"
@@ -18,11 +19,18 @@ class ShipAux(object):
         return None
 
 
-def message_ship_info(mobile):
+def get_ship_info(mobile):
     data = {
-        "position": list(mobile.aux[SHIP_AUX].position)
+        "position": list(mobile.aux[SHIP_AUX].position),
+        "velocity": mobile.aux[thrusters.THRUSTERS_AUX].velocity()
     }
+    return data
+
+
+def message_ship_info(mobile):
+    data = get_ship_info()
     mobile.message("ship.info", data)
+
 
 def command_ship_info(mobile, _, args):
     parser.parse([], args)
