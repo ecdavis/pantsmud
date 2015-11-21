@@ -4,6 +4,7 @@ import spacegame.login
 import spacegame.move
 import spacegame.playing
 import spacegame.info
+import spacegame.ship
 
 
 def init():
@@ -15,7 +16,8 @@ def init():
     spacegame.move.init()
     spacegame.comm.init()
     spacegame.info.init()
+    spacegame.ship.init()
 
 
 def start():
-    pass
+    spacegame.ship.start()
