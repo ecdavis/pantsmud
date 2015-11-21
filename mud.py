@@ -36,18 +36,16 @@ def save_world(w):
     persist.save_zones(ZONE_PATH, w)
     persist.save_world(WORLD_PATH, w)
 
-# Initialize game.
+# Initialize the game.
 spacegame.init()
-
-# Initialize MUD driver.
 engine = pants.Engine.instance()
 world = load_world()
 game.init(engine, world)
-
-# Initialize networking.
 net.init()
 
-# Start game.
-engine.start()
+# Start the game.
+spacegame.start()
+game.start()
 
+# Cleanup after shutdown.
 save_world(world)

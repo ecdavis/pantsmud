@@ -39,4 +39,8 @@ def init(e, w):
     world = w
     hook.add(hook.HOOK_RESET_ZONE, reset_zone_hook)
     hook.add(hook.HOOK_SHUTDOWN, shutdown_hook)
+
+
+def start():
     engine.cycle(60.0, pulse_world)
+    engine.start()

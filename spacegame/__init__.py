@@ -15,3 +15,7 @@ def init():
     spacegame.move.init()
     spacegame.comm.init()
     spacegame.info.init()
+
+
+def start():
+    pass
