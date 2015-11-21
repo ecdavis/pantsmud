@@ -9,6 +9,7 @@ from pantsmud.driver import error
 STRING = "string"
 WORD = "word"
 INT = "int"
+FLOAT = "float"
 UUID = "uuid"
 
 
@@ -59,6 +60,7 @@ class Parser(object):
         self.add_token_type(STRING, parse_string)
         self.add_token_type(WORD, parse_word)
         self.add_token_type(INT, parse_int)
+        self.add_token_type(FLOAT, parse_float)
         self.add_token_type(UUID, parse_uuid)
 
     def add_token_type(self, type_name, type_func):
@@ -128,6 +130,22 @@ def parse_int(params):
         value, rest = params, ''
     try:
         return int(value), rest
+    except ValueError:
+        raise error.ParseError("Invalid parameter value: '%s'" % value)
+
+
+def parse_float(params):
+    """
+    Parse a single float from a token string.
+
+    Parses a ParseError if the token value cannot be converted to a float.
+    """
+    if ' ' in params:
+        value, rest = params.split(' ', 1)
+    else:
+        value, rest = params, ''
+    try:
+        return float(value), rest
     except ValueError:
         raise error.ParseError("Invalid parameter value: '%s'" % value)
 
