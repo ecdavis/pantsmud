@@ -56,10 +56,7 @@ class Session(object):
         return self.input_handlers.pop()
 
     def message(self, name, data=None):
-        if data:
-            msg = "%s %s" % (name, json.dumps(data))
-        else:
-            msg = name
+        msg = json.dumps({"message": name, "data": data})
         self.write_line(msg)
 
     def write(self, msg):
