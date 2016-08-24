@@ -43,6 +43,8 @@ class CommandManager(object):
             self._commands[cmd](brain, cmd, args)
         except error.CommandError:
             raise
+        except error.CommandFail:
+            raise
         except Exception:  # Catch Exception here because we have no control over what command code will throw.
             log.exception("Unhandled exception in command: '%s', func '%s', manager '%s'",
                           cmd, self._commands[cmd].__name__, self.name)
@@ -69,6 +71,8 @@ class CommandManager(object):
                 self.run(brain, cmd, args)
             except error.CommandError as e:
                 message.command_error(brain, cmd, args, e.message)
+            except error.CommandFail as e:
+                message.command_fail(brain, cmd, args, e.message)
         else:
             message.command_not_found(brain, cmd, args)
 

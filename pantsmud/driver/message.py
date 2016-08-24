@@ -8,6 +8,11 @@ def command_success(brain, cmd, result=None):
     brain.message("command.success", {"command": cmd, "result": result})
 
 
+def command_fail(brain, cmd, args, message):
+    log.debug("command_fail")
+    brain.message("command.fail", {"command": cmd, "parameters": args, "failure": message})
+
+
 def command_error(brain, cmd, args, message):
     log.debug("command_error")
     brain.message("command.error", {"command": cmd, "parameters": args, "error": message})
@@ -16,11 +21,6 @@ def command_error(brain, cmd, args, message):
 def command_not_found(brain, cmd, args):
     log.debug("command_not_found")
     brain.message("command.not_found", {"command": cmd, "parameters": args})
-
-
-def command_fail(brain, cmd, args):
-    log.debug("command_fail")
-    brain.message("command.fail", {"command": cmd, "parameters": args})
 
 
 def command_invalid_input(brain, line):
