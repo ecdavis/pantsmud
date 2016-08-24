@@ -3,6 +3,11 @@ import logging
 log = logging.getLogger(__name__)
 
 
+def command_success(brain, cmd, result=None):
+    log.debug("command_success")
+    brain.message("command.success", {"command": cmd, "result": result})
+
+
 def command_error(brain, cmd, args, message):
     log.debug("command_error")
     brain.message("command.error", {"command": cmd, "parameters": args, "error": message})
@@ -26,3 +31,8 @@ def command_invalid_input(brain, line):
 def command_internal_error(brain):
     log.debug("command_internal_error")
     brain.message("command.internal_error")
+
+
+def notify(brain, notification, data):
+    log.debug("notify")
+    brain.message("notify", {"notification": notification, "data": data})
