@@ -1,16 +1,13 @@
 import logging
-import string
-
 import pants
-
-from pantsmud.driver import session, game
+import string
+from pantsmud import game
+from pantsmud.driver import session
 
 log = logging.getLogger(__name__)
 
-_server = None
 
-
-class LineStream(pants.Stream):
+class GameConnection(pants.Stream):
     def on_connect(self):
         log.debug("on_connect: '%s'", self)
         self.read_delimiter = "\r\n"
@@ -27,7 +24,6 @@ class LineStream(pants.Stream):
         session.close_session(self)
 
 
-def init():
-    global _server
-    _server = pants.Server(LineStream)
-    _server.listen(4040)
+class GameServer(pants.Server):
+    def __init__(self, **kwargs):
+        pants.Server.__init__(self, ConnectionClass=GameConnection, **kwargs)

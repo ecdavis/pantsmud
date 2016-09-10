@@ -46,19 +46,12 @@ AUX_TYPE_BRAIN = "brain"
 AUX_TYPE_LINK = "exit"
 AUX_TYPE_MOBILE = "mobile"
 AUX_TYPE_NODE = "node"
-AUX_TYPE_WORLD = "world"
+AUX_TYPE_ENVIRONMENT = "environment"
 AUX_TYPE_ZONE = "zone"
 
+
 # aux_type: {name: cls}
-_auxiliary_classes = {
-    AUX_TYPE_ACCOUNT: {},
-    AUX_TYPE_BRAIN: {},
-    AUX_TYPE_LINK: {},
-    AUX_TYPE_MOBILE: {},
-    AUX_TYPE_NODE: {},
-    AUX_TYPE_WORLD: {},
-    AUX_TYPE_ZONE: {}
-}
+_auxiliary_classes = {}
 
 
 def install(aux_type, name, cls):
@@ -118,3 +111,16 @@ def save_data(aux):
     for key in aux.keys():
         data[key] = aux[key].save_data()
     return data
+
+
+def init():
+    global _auxiliary_classes
+    _auxiliary_classes = {
+        AUX_TYPE_ACCOUNT: {},
+        AUX_TYPE_BRAIN: {},
+        AUX_TYPE_LINK: {},
+        AUX_TYPE_MOBILE: {},
+        AUX_TYPE_NODE: {},
+        AUX_TYPE_ENVIRONMENT: {},
+        AUX_TYPE_ZONE: {}
+    }

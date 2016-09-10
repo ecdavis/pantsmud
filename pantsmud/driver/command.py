@@ -1,10 +1,12 @@
 import logging
 import string
-
-from pantsmud.driver import error, message
+from pantsmud.util import error, message
 
 log = logging.getLogger(__name__)
 valid_input_characters = string.ascii_letters + string.digits + string.punctuation + ' '
+
+
+_command_manager = None
 
 
 class CommandManager(object):
@@ -32,15 +34,15 @@ class CommandManager(object):
     def exists(self, name):
         return name in self._commands
 
-    def run(self, brain, cmd, args):
-        if not brain:
-            raise TypeError("'brain' must exist.")
-        if not brain.world:
-            raise ValueError("'brain' must be added to the world before it can run commands.")
+    def run(self, actor, cmd, args):
+        if not actor:
+            raise TypeError("'actor' must exist.")
+        if not actor.environment:
+            raise ValueError("'actor' must be added to an environment before it can run commands.")
         if cmd not in self._commands:
             raise KeyError("Command '%s' does not exist in command manager '%s'" % (cmd, self.name))
         try:
-            self._commands[cmd](brain, cmd, args)
+            self._commands[cmd](actor, cmd, args)
         except error.CommandError:
             raise
         except error.CommandFail:
@@ -49,17 +51,17 @@ class CommandManager(object):
             log.exception("Unhandled exception in command: '%s', func '%s', manager '%s'",
                           cmd, self._commands[cmd].__name__, self.name)
 
-    def input_handler(self, brain, line):
+    def input_handler(self, actor, line):
         if not line:
             return
         line = line.rstrip(string.whitespace)
         if not line:
             return
         if line[0] not in string.letters:
-            message.command_invalid_input(brain, line)
+            message.command_invalid_input(actor, line)
             return
         if any((c not in valid_input_characters for c in line)):
-            message.command_invalid_input(brain, line)
+            message.command_invalid_input(actor, line)
             return
         if ' ' in line:
             cmd, args = line.split(' ', 1)
@@ -68,16 +70,27 @@ class CommandManager(object):
         # TODO validate/clean args?
         if self.exists(cmd):
             try:
-                self.run(brain, cmd, args)
+                self.run(actor, cmd, args)
             except error.CommandError as e:
-                message.command_error(brain, cmd, args, e.message)
+                message.command_error(actor, cmd, args, e.message)
             except error.CommandFail as e:
-                message.command_fail(brain, cmd, args, e.message)
+                message.command_fail(actor, cmd, args, e.message)
         else:
-            message.command_not_found(brain, cmd, args)
+            message.command_not_found(actor, cmd, args)
 
 
-_command_manager = CommandManager(__name__)
-add_command = _command_manager.add
-command_exists = _command_manager.exists
-command_input_handler = _command_manager.input_handler
+def add_command(name, func):
+    return _command_manager.add(name, func)
+
+
+def command_exists(name):
+    return _command_manager.exists(name)
+
+
+def command_input_handler(actor, line):
+    return _command_manager.input_handler(actor, line)
+
+
+def init():
+    global _command_manager
+    _command_manager = CommandManager(__name__)

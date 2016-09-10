@@ -1,7 +1,5 @@
-from unittest import TestCase
-
 import mock
-
+from unittest import TestCase
 from pantsmud.driver import hook
 
 
@@ -13,11 +11,10 @@ class TestAdd(TestCase):
 class TestRun(TestCase):
     def setUp(self):
         self.name = "test"
-        self.backup_hooks = hook._hooks
-        hook._hooks = {}
+        hook.init()
 
     def tearDown(self):
-        hook._hooks = self.backup_hooks
+        hook.init()
 
     def test_run_non_existent_hook_does_not_fail(self):
         try:

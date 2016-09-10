@@ -1,16 +1,15 @@
-from unittest import TestCase
-
 import mock
-
-from pantsmud.driver import session, error, hook
+from unittest import TestCase
+from pantsmud.driver import hook, session
+from pantsmud.util import error
 
 
 class TestSessionClass(TestCase):
     def setUp(self):
         self.session = session.Session(mock.MagicMock())
         self.mobile = mock.MagicMock()
-        self.session.world = mock.MagicMock()
-        self.session.world.mobiles = {self.mobile.uuid: self.mobile}
+        self.session.environment = mock.MagicMock()
+        self.session.environment.mobiles = {self.mobile.uuid: self.mobile}
         self.ih = mock.MagicMock()
         self.state = mock.MagicMock()
 
@@ -64,12 +63,16 @@ class TestSessionClass(TestCase):
 
 class TestSessionFunctions(TestCase):
     def setUp(self):
+        session.init()
         self.open_brain_hook = mock.MagicMock()
         self.open_brain_hook.__name__ = "open_brain_hook"
         self.close_brain_hook = mock.MagicMock()
         self.close_brain_hook.__name__ = "close_brain_hook"
         hook.add(hook.HOOK_OPEN_BRAIN, self.open_brain_hook)
         hook.add(hook.HOOK_CLOSE_BRAIN, self.close_brain_hook)
+
+    def tearDown(self):
+        session.init()
 
     def test_open_session(self):
         stream = mock.MagicMock()

@@ -1,16 +1,14 @@
+import mock
 import string
 from unittest import TestCase
-
-import mock
-
-from pantsmud.driver import command
+from pantsmud.driver.command import CommandManager
 
 
 class TestCommandManagerAdd(TestCase):
     def setUp(self):
         self.func = lambda: None
         self.name = "test"
-        self.command_manager = command.CommandManager(self.name)
+        self.command_manager = CommandManager(self.name)
 
     def test_command_exists_after_add(self):
         self.assertFalse(self.command_manager.exists(self.name))
@@ -36,41 +34,41 @@ class TestCommandManagerRun(TestCase):
     def setUp(self):
         self.func = lambda: None
         self.name = "test"
-        self.command_manager = command.CommandManager(self.name)
+        self.command_manager = CommandManager(self.name)
 
     def test_command_function_is_called_by_run(self):
         func = mock.MagicMock()
         func.__name__ = "func"
-        brain = mock.MagicMock()
+        actor = mock.MagicMock()
         self.command_manager.add(self.name, func)
 
-        self.command_manager.run(brain, self.name, None)
-        func.assert_called_once_with(brain, self.name, None)
+        self.command_manager.run(actor, self.name, None)
+        func.assert_called_once_with(actor, self.name, None)
 
     def test_run_fails_if_command_does_not_exist(self):
-        brain = mock.MagicMock()
-        self.assertRaises(KeyError, self.command_manager.run, brain, self.name, None)
+        actor = mock.MagicMock()
+        self.assertRaises(KeyError, self.command_manager.run, actor, self.name, None)
 
-    def test_run_fails_with_no_brain(self):
+    def test_run_fails_with_no_actor(self):
         self.command_manager.add(self.name, self.func)
 
         self.assertRaises(TypeError, self.command_manager.run, None, self.name, None)
 
-    def test_run_fails_when_brain_has_no_world(self):
+    def test_run_fails_when_actor_has_no_environment(self):
         self.command_manager.add(self.name, self.func)
-        brain = mock.MagicMock()
-        brain.world = None
+        actor = mock.MagicMock()
+        actor.environment = None
 
-        self.assertRaises(ValueError, self.command_manager.run, brain, self.name, None)
+        self.assertRaises(ValueError, self.command_manager.run, actor, self.name, None)
 
     def test_run_suppresses_exceptions_in_command_func(self):
-        def raiser(brain, cmd, args):
+        def raiser(actor, cmd, args):
             raise Exception()
-        brain = mock.MagicMock()
+        actor = mock.MagicMock()
         self.command_manager.add(self.name, raiser)
 
         try:
-            self.command_manager.run(brain, self.name, "")
+            self.command_manager.run(actor, self.name, "")
         except Exception:
             self.fail("CommandManager.run must catch all exceptions raised by command functions.")
 
@@ -79,16 +77,16 @@ class TestCommandManagerInputHandler(TestCase):
     def setUp(self):
         self.func = lambda: None
         self.name = "test"
-        self.command_manager = command.CommandManager(self.name)
+        self.command_manager = CommandManager(self.name)
 
     def test_command_function_is_called_by_input_handler(self):
         func = mock.MagicMock()
         func.__name__ = "func"
-        brain = mock.MagicMock()
+        actor = mock.MagicMock()
         self.command_manager.add(self.name, func)
 
-        self.command_manager.input_handler(brain, self.name)
-        func.assert_called_once_with(brain, self.name, '')
+        self.command_manager.input_handler(actor, self.name)
+        func.assert_called_once_with(actor, self.name, '')
 
     def test_input_handler_does_not_run_command_with_no_input(self):
         func = mock.MagicMock()
@@ -147,26 +145,26 @@ class TestCommandManagerInputHandler(TestCase):
     def test_input_handler_strips_whitespace_and_runs_command_when_input_ends_with_whitespace(self):
         func = mock.MagicMock()
         func.__name__ = "func"
-        brain = mock.MagicMock()
+        actor = mock.MagicMock()
         self.command_manager.add(self.name, func)
 
-        self.command_manager.input_handler(brain, self.name + string.whitespace)
-        func.assert_called_once_with(brain, self.name, '')
+        self.command_manager.input_handler(actor, self.name + string.whitespace)
+        func.assert_called_once_with(actor, self.name, '')
 
     def test_input_handler_sends_message_on_invalid_input(self):
-        brain = mock.MagicMock()
-        self.command_manager.input_handler(brain, "foobar\t")
-        self.assertEqual(brain.message.call_count, 1, "CommandManager.input_handler must message the brain if the input is invalid.")
-        self.command_manager.input_handler(brain, "\tfoobar")
-        self.assertEqual(brain.message.call_count, 2, "CommandManager.input_handler must message the brain if the input is invalid.")
+        actor = mock.MagicMock()
+        self.command_manager.input_handler(actor, "foobar\t")
+        self.assertEqual(actor.message.call_count, 1, "CommandManager.input_handler must message the actor if the input is invalid.")
+        self.command_manager.input_handler(actor, "\tfoobar")
+        self.assertEqual(actor.message.call_count, 2, "CommandManager.input_handler must message the actor if the input is invalid.")
 
     def test_input_handler_sends_command_notfound_message(self):
-        brain = mock.MagicMock()
-        self.command_manager.input_handler(brain, "foobar")
-        self.assertEqual(brain.message.call_count, 1, "CommandManager.input_handler must message the brain if the command is not found.")
+        actor = mock.MagicMock()
+        self.command_manager.input_handler(actor, "foobar")
+        self.assertEqual(actor.message.call_count, 1, "CommandManager.input_handler must message the actor if the command is not found.")
 
     def test_input_handler_splits_command_name_from_arguments(self):
-        brain = mock.MagicMock()
+        actor = mock.MagicMock()
         cmd = self.name
         args = "foo bar baz bar"
         line = cmd + " " + args
@@ -174,5 +172,5 @@ class TestCommandManagerInputHandler(TestCase):
         func.__name__ = func
         self.command_manager.add(self.name, func)
 
-        self.command_manager.input_handler(brain, line)
-        func.assert_called_once_with(brain, cmd, args)
+        self.command_manager.input_handler(actor, line)
+        func.assert_called_once_with(actor, cmd, args)

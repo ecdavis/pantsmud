@@ -1,6 +1,6 @@
 from unittest import TestCase
-
-from pantsmud.driver import command, error, parser
+from pantsmud.driver import parser
+from pantsmud.util import error
 
 
 class TestParse(TestCase):

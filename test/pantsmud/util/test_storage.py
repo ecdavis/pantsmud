@@ -2,10 +2,11 @@ import glob
 import os
 import os.path
 from unittest import TestCase
+import uuid
 
 import mock
 
-from pantsmud.driver import storage
+from pantsmud.util import convert, storage
 
 
 def check_and_remove(path):
@@ -15,6 +16,7 @@ def check_and_remove(path):
 
 class Obj(object):
     def __init__(self):
+        self.uuid = uuid.uuid4()
         self.load_data = mock.MagicMock()
 
 
@@ -149,7 +151,8 @@ class TestSaveObjects(TestCase):
         objs = [self.obj1, self.obj2]
         storage.save_objects(self.path, self.extension, objs)
         for obj, data in zip(objs, [self.d1, self.d2]):
-            path = "%s/%s%s" % (self.path, obj.name, self.extension)
+            # TODO Ideally the below would work without calling convert.
+            path = "%s/%s%s" % (self.path, convert.uuid_to_base32(obj.uuid), self.extension)
             self.assertTrue(os.path.exists(path))
             loaded_data = storage.load(path)
             self.assertDictEqual(data, loaded_data)

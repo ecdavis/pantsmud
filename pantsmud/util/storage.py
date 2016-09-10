@@ -7,7 +7,7 @@ import json
 import logging
 import os.path
 
-from pantsmud.driver import util
+from pantsmud.util import convert
 
 
 log = logging.getLogger(__name__)
@@ -72,7 +72,7 @@ def save_objects(path, extension, objs):
     if not os.path.isdir(path):
         raise IOError("Path is not directory: '%s'" % path)
     for obj in objs:
-        obj_path = "%s/%s%s" % (path, util.uuid_to_base32(obj.uuid), extension)
+        obj_path = "%s/%s%s" % (path, convert.uuid_to_base32(obj.uuid), extension)
         save_object(obj_path, obj)
 
 

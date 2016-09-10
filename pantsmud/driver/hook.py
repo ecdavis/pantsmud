@@ -47,3 +47,8 @@ def run(hook, *args, **kwargs):
             func(hook, *args, **kwargs)
         except Exception:  # Catch Exception here because we have no control over what hook code will throw.
             log.exception("Unhandled exception in hook function: '%s', hook '%s'", func.__name__, hook)
+
+
+def init():
+    global _hooks
+    _hooks = {}

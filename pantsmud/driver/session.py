@@ -1,8 +1,8 @@
-import logging
 import json
 import uuid
+from pantsmud.driver import auxiliary, hook
+from pantsmud.util import error
 
-from pantsmud.driver import error, hook, auxiliary
 
 _sessions = {}
 
@@ -11,7 +11,7 @@ class Session(object):
     def __init__(self, stream):
         self.uuid = uuid.uuid4()
         self.stream = stream
-        self.world = None
+        self.environment = None
         self.mobile_uuid = None
         self.is_user = True
         self.input_handlers = []
@@ -20,7 +20,7 @@ class Session(object):
     @property
     def mobile(self):
         if self.mobile_uuid:
-            return self.world.mobiles[self.mobile_uuid]
+            return self.environment.mobiles[self.mobile_uuid]
         else:
             return None
 
@@ -70,7 +70,6 @@ class Session(object):
 
 
 def open_session(stream):
-    logging.debug("open_session")
     s = Session(stream)
     _sessions[stream] = s
     hook.run(hook.HOOK_OPEN_BRAIN, s)
@@ -78,7 +77,6 @@ def open_session(stream):
 
 
 def close_session(stream):
-    logging.debug("close_session")
     s = _sessions[stream]
     hook.run(hook.HOOK_CLOSE_BRAIN, s)
     del _sessions[stream]
@@ -87,3 +85,8 @@ def close_session(stream):
 
 def get_session(stream):
     return _sessions[stream]
+
+
+def init():
+    global _sessions
+    _sessions = {}

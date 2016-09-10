@@ -3,14 +3,16 @@ An extensible parser that can be used to validate user input.
 """
 
 import uuid
-
-from pantsmud.driver import error
+from pantsmud.util import error
 
 STRING = "string"
 WORD = "word"
 INT = "int"
 FLOAT = "float"
 UUID = "uuid"
+
+
+_parser = None
 
 
 class Parser(object):
@@ -166,6 +168,10 @@ def parse_uuid(params):
         raise error.ParseError("Invalid parameter value: '%s'" % value)
 
 
-_parser = Parser()
-add_token_type = _parser.add_token_type
-parse = _parser.parse
+def parse(pattern, token_string):
+    return _parser.parse(pattern, token_string)
+
+
+def init():
+    global _parser
+    _parser = Parser()

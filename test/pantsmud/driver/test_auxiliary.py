@@ -1,7 +1,5 @@
-from unittest import TestCase
-
 import mock
-
+from unittest import TestCase
 from pantsmud.driver import auxiliary
 
 
@@ -63,7 +61,7 @@ class TestNewData(TestCase):
 
 class TestLoadData(TestCase):
     def setUp(self):
-        self.backup_auxiliary = auxiliary._auxiliary_classes
+        auxiliary.init()
         auxiliary._auxiliary_classes = {}
         self.type_1 = "test_aux_type_1"
         self.name_1 = "test_aux_1"
@@ -75,7 +73,7 @@ class TestLoadData(TestCase):
         auxiliary.install(self.type_1, self.name_1, Aux1)
 
     def tearDown(self):
-        auxiliary._auxiliary_classes = self.backup_auxiliary
+        auxiliary.init()
 
     def test_load_data_passed_each_aux_classes_data_to_its_load_data_method(self):
         auxiliary.install(self.type_1, self.name_2, Aux2)
