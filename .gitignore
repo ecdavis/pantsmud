@@ -1,0 +1,9 @@
+*.py[cod]
+
+.idea
+
+.coverage
+
+data
+
+dist
