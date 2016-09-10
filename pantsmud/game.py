@@ -1,4 +1,5 @@
 import logging
+from pantsmud.driver import hook
 
 log = logging.getLogger(__name__)
 
@@ -11,7 +12,7 @@ def pulse():
     environment.pulse()
 
 
-def shutdown_hook():
+def shutdown_hook(_):
     global engine, environment
     engine.stop()
     engine = None
@@ -22,6 +23,7 @@ def init(eng, env):
     global engine, environment
     engine = eng
     environment = env
+    hook.add(hook.HOOK_SHUTDOWN, shutdown_hook)
 
 
 def start():
