@@ -4,13 +4,13 @@ from setuptools import setup
 
 setup(
     name="pantsmud",
-    version="0.3",
+    version="0.3.1",
     description="A simple MUD library built using the Pants networking framework.",
     author="ecdavis",
     author_email="me@ezdwt.com",
     url="http://github.com/ecdavis/pantsmud",
     download_url="https://github.com/ecdavis/pantsmud/tarball/master",
-    packages=["pantsmud", "pantsmud.driver"],
+    packages=["pantsmud", "pantsmud.driver", "pantsmud.util"],
     install_requires=["pants >= 1.0"],
     tests_require=['mock'],
     classifiers=[
