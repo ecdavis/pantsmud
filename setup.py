@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name="pantsmud",
-    version="0.3.2",
+    version="0.4.0",
     description="A simple MUD library built using the Pants networking framework.",
     author="ecdavis",
     author_email="me@ezdwt.com",
