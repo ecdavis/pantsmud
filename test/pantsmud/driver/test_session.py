@@ -7,14 +7,32 @@ from pantsmud.util import error
 class TestSessionClass(TestCase):
     def setUp(self):
         self.session = session.Session(mock.MagicMock())
-        self.mobile = mock.MagicMock()
         self.session.environment = mock.MagicMock()
+        self.identity = mock.MagicMock()
+        self.session.environment.identities = {self.identity.uuid: self.identity}
+        self.mobile = mock.MagicMock()
         self.session.environment.mobiles = {self.mobile.uuid: self.mobile}
         self.ih = mock.MagicMock()
         self.state = mock.MagicMock()
 
-    def test_is_user(self):
-        self.assertTrue(self.session.is_user)
+    def test_is_client(self):
+        self.assertTrue(self.session.is_client)
+
+    def test_identity(self):
+        self.session.identity_uuid = self.identity.uuid
+        self.assertEqual(self.session.identity, self.identity)
+
+    def test_identity_when_uuid_is_none(self):
+        self.session.identity_uuid = None
+        self.assertIsNone(self.session.identity)
+
+    def test_set_identity(self):
+        self.session.identity = self.identity
+        self.assertEqual(self.session.identity_uuid, self.identity.uuid)
+
+    def test_set_identity_to_none(self):
+        self.session.identity = None
+        self.assertIsNone(self.session.identity_uuid)
 
     def test_mobile(self):
         self.session.mobile_uuid = self.mobile.uuid

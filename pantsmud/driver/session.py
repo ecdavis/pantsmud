@@ -12,10 +12,25 @@ class Session(object):
         self.uuid = uuid.uuid4()
         self.stream = stream
         self.environment = None
+        self.identity_uuid = None
         self.mobile_uuid = None
-        self.is_user = True
+        self.is_client = True
         self.input_handlers = []
         self.aux = auxiliary.new_data(auxiliary.AUX_TYPE_BRAIN)
+
+    @property
+    def identity(self):
+        if self.identity_uuid:
+            return self.environment.identities[self.identity_uuid]
+        else:
+            return self.identity_uuid
+
+    @identity.setter
+    def identity(self, identity):
+        if identity:
+            self.identity_uuid = identity.uuid
+        else:
+            self.identity_uuid = None
 
     @property
     def mobile(self):
