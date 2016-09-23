@@ -11,7 +11,7 @@ class TestSessionClass(TestCase):
         self.identity = mock.MagicMock()
         self.session.environment.identities = {self.identity.uuid: self.identity}
         self.mobile = mock.MagicMock()
-        self.session.environment.mobiles = {self.mobile.uuid: self.mobile}
+        self.session.environment.entities = {self.mobile.uuid: self.mobile}
         self.ih = mock.MagicMock()
         self.state = mock.MagicMock()
 

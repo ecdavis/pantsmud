@@ -35,7 +35,7 @@ class Session(object):
     @property
     def mobile(self):
         if self.mobile_uuid:
-            return self.environment.mobiles[self.mobile_uuid]
+            return self.environment.entities[self.mobile_uuid]
         else:
             return None
 
